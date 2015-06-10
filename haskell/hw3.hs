@@ -1,17 +1,20 @@
+test (x:xs) =
+    if null xs then
+        x
+    else
+        test xs
+
 insert :: Int -> [Int] -> [Int]
 insert x [] = [x]
-insert x y =
-    if x < head y then
-        x:y
+insert x (y:ys) =
+    if x < y then
+        x:(y:ys)
     else
-        head y:insert x (tail y)
+        y:insert x ys
 
 sortHelper :: [Int] -> [Int] -> [Int]
-sortHelper x y =
-    if null x then
-        y
-    else
-        sortHelper (tail x) (insert (head x) y)
+sortHelper [] y = y
+sortHelper (x:xs) y = sortHelper xs (insert x y)
 
 sort :: [Int] -> [Int]
 sort x = sortHelper x []
