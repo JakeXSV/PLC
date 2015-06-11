@@ -8,27 +8,20 @@ insert x (y:ys) =
     else
         y:insert x ys
 
-sortHelper :: [Int] -> [Int] -> [Int]
-sortHelper [] y = y
-sortHelper (x:xs) y = sortHelper xs (insert x y)
-
 sort :: [Int] -> [Int]
-sort x = sortHelper x []
-
-sqsumHelper :: Int -> Int -> Int
-sqsumHelper 0 sum = sum
-sqsumHelper cur sum = sqsumHelper (cur-1) (sum+cur*cur)
+sort (x:xs)
+    | null xs = [x]
+    | not (null (x:xs)) = insert x (sort xs)
 
 sqsum :: Int -> Int
-sqsum x = sqsumHelper x 0
-
-lessHelper :: Int -> [Int] -> [Int] -> [Int]
-lessHelper someNum [] lessThanList = lessThanList
-lessHelper someNum (x:xs) lessThanList =
-    if someNum < x then
-        lessHelper someNum xs (x:lessThanList)
-    else
-        lessHelper someNum xs lessThanList
+sqsum x
+    | x == 0 = 0
+    | otherwise = x*x + sqsum (x-1)
 
 less :: (Int, [Int]) -> [Int]
-less (x, y:ys) = lessHelper x (y:ys) []
+less (x, []) = []
+less (x, y:ys) =
+    if y < x then
+        y:less (x, ys)
+    else
+        less (x, ys)
