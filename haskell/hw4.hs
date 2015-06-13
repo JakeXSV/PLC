@@ -6,9 +6,7 @@ num_digits x
     | otherwise = 1 + num_digits (x `div` 10)
 
 max_digits :: [Int] -> Int
-max_digits [] = 0
-max_digits (x:xs) =
-    if num_digits x > max_digits xs then
-        num_digits x
-    else
-        max_digits xs
+max_digits (x:xs)
+    | null xs = num_digits x
+    | num_digits x > max_digits xs = num_digits x
+    | otherwise = max_digits xs
