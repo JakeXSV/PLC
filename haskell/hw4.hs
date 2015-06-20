@@ -20,3 +20,9 @@ nth_digit :: (Int, Int) -> Int
 nth_digit (x, n)
     | (n-1) <= 0 = right_digit x
     | otherwise = nth_digit (x `div` 10, n-1)
+
+bucket :: (Int, Int, [Int]) -> [Int]
+bucket (d, n, l)
+    | null l = []
+    | nth_digit(head l, n) == d = head l : bucket(d, n, tail l)
+    | otherwise = bucket(d, n, tail l)
