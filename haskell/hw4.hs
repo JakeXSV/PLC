@@ -26,3 +26,11 @@ bucket (d, n, l)
     | null l = []
     | nth_digit(head l, n) == d = head l : bucket(d, n, tail l)
     | otherwise = bucket(d, n, tail l)
+
+sort_nth_digit_helper :: (Int, Int, [Int]) -> [Int]
+sort_nth_digit_helper (count, n, l)
+    | count >= 9 = []
+    | otherwise = bucket(count, n, l) ++ sort_nth_digit_helper (succ count, n, l)
+
+sort_nth_digit :: (Int, [Int]) -> [Int]
+sort_nth_digit (n, l) = sort_nth_digit_helper(0, n, l)
