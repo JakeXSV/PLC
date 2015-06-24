@@ -34,3 +34,11 @@ sort_nth_digit_helper (count, n, l)
 
 sort_nth_digit :: (Int, [Int]) -> [Int]
 sort_nth_digit (n, l) = sort_nth_digit_helper(0, n, l)
+
+radix_sort_max_helper :: (Int, Int, [Int]) -> [Int]
+radix_sort_max_helper (max, count, l)
+    | max+1 == count = l
+    | otherwise = radix_sort_max_helper(max, succ count, sort_nth_digit(count, l))
+
+radix_sort_max :: (Int, [Int]) -> [Int]
+radix_sort_max (max, l) = radix_sort_max_helper(max, 1, l)
