@@ -6,11 +6,7 @@ is_member l x = foldl (\hasBeenFound e -> if not hasBeenFound then x == e else h
 split_string_list = [' ','.',';','?',':','!','\t', '\n']
 
 removeFirstSymbols :: [Char] -> [Char]
-removeFirstSymbols ([]) = []
-removeFirstSymbols (x:xs)
-    | null xs = []
-    | is_member split_string_list x = removeFirstSymbols xs
-    | otherwise = x:xs
+removeFirstSymbols l = foldl (\strippedList e -> if is_member split_string_list e then strippedList else e:strippedList) [] l
 
 removeFirstWord :: [Char] -> [Char] -> [Char]
 removeFirstWord someWord someSentence = drop (length someWord + 1) someSentence
