@@ -3,23 +3,20 @@
 is_member :: (Eq a) => [a] -> a -> Bool
 is_member l x = foldl (\hasBeenFound e -> if not hasBeenFound then x == e else hasBeenFound) False l
 
-split_string_list = [' ','.',';','?',':','!','\t', '\n']
+split_string_list = [' ',',', '.',';','?',':','!','\t', '\n']
 
 removeFirstSymbols :: [Char] -> [Char]
-removeFirstSymbols l = foldl (\strippedList e -> if is_member split_string_list e then strippedList else e:strippedList) [] l
+removeFirstSymbols l = dropWhile (\e -> is_member split_string_list e) l
 
-removeFirstWord :: [Char] -> [Char] -> [Char]
-removeFirstWord someWord someSentence = drop (length someWord + 1) someSentence
+removeFirstWord :: [Char] -> [Char]
+removeFirstWord l = dropWhile (\e -> not(is_member split_string_list e)) l
 
 get_first_word :: [Char] -> [Char]
-get_first_word (x:xs)
-    | null xs = []
-    | is_member split_string_list x = []
-    | otherwise = x : get_first_word xs
+get_first_word l = takeWhile (\e -> not(is_member split_string_list e)) l
 
 splitter :: [Char] -> [[Char]]
 splitter someSentence
         | null fixedSentence = []
-        | otherwise = get_first_word fixedSentence : splitter (removeFirstWord (get_first_word fixedSentence) fixedSentence)
+        | otherwise = get_first_word fixedSentence : splitter (removeFirstWord fixedSentence)
     where
         fixedSentence = removeFirstSymbols someSentence
