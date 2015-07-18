@@ -55,3 +55,15 @@ get_stop_words sentence =
                 stopWords
         )
         [] (splitter sentence)
+
+remove_stop_words :: [Char] -> [[Char]]
+remove_stop_words sentence =
+    foldl
+        (\
+            regWords e ->
+            if (not (is_member (splitter stop_words) e) && not (is_member regWords e)) then
+                e:regWords
+            else
+                regWords
+        )
+        [] (splitter sentence)
