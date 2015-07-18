@@ -1,7 +1,16 @@
 -- See https://github.com/Jakehp/PLC/blob/master/pdfs/hwk5.pdf
 
 is_member :: (Eq a) => [a] -> a -> Bool
-is_member l x = foldl (\hasBeenFound e -> if not hasBeenFound then x == e else hasBeenFound) False l
+is_member l x =
+    foldl
+        (\
+            hasBeenFound e ->
+            if not hasBeenFound then
+                x == e
+            else
+                hasBeenFound
+        )
+        False l
 
 split_string_list = [' ',',', '.',';','?',':','!','\t', '\n']
 
@@ -34,4 +43,16 @@ stop_words = "a,able,about,across,after,all,almost,also,am,among,an,and,any,are,
 -- are_stop_words is better.
 is_stop_word :: [Char] -> [Bool]
 is_stop_word sentence = map (\e-> is_member (splitter stop_words) e) (splitter sentence)
--- split words
+
+
+-- get_stop_words :: [[Char]] -> [[Char]]
+get_stop_words sentence =
+    foldl
+        (\
+            stopWords e ->
+            if (is_member (splitter stop_words) e && not (is_member stopWords e)) then
+                e:stopWords
+            else
+                stopWords
+        )
+        [] (splitter sentence)
