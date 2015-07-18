@@ -44,8 +44,7 @@ stop_words = "a,able,about,across,after,all,almost,also,am,among,an,and,any,are,
 is_stop_word :: [Char] -> [Bool]
 is_stop_word sentence = map (\e-> is_member (splitter stop_words) e) (splitter sentence)
 
-
--- get_stop_words :: [[Char]] -> [[Char]]
+get_stop_words :: [Char] -> [[Char]]
 get_stop_words sentence =
     foldl
         (\
