@@ -14,7 +14,7 @@ max_digits (x:xs)
 right_digit :: Int -> Int
 right_digit x
     | num_digits x == 1 = x
-    | otherwise = right_digit (x - (10 ^ (num_digits x - 1)))
+    | otherwise = right_digit $ x - 10 ^ (num_digits x - 1)
 
 nth_digit :: (Int, Int) -> Int
 nth_digit (x, n)

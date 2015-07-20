@@ -1,7 +1,7 @@
 -- See https://github.com/Jakehp/PLC/blob/master/pdfs/hwk5.pdf
 
-is_member :: (Eq a) => [a] -> a -> Bool
-is_member l x =
+is_member :: (Eq a) => a -> [a] -> Bool
+is_member x l =
     foldl
         (\
             hasBeenFound e ->
@@ -15,13 +15,13 @@ is_member l x =
 split_string_list = [' ',',', '.',';','?',':','!','\t', '\n']
 
 removeFirstSymbols :: [Char] -> [Char]
-removeFirstSymbols l = dropWhile (\e -> is_member split_string_list e) l
+removeFirstSymbols l = dropWhile (\e -> is_member e split_string_list) l
 
 removeFirstWord :: [Char] -> [Char]
-removeFirstWord l = dropWhile (\e -> not(is_member split_string_list e)) l
+removeFirstWord l = dropWhile (\e -> not $ is_member e split_string_list) l
 
 get_first_word :: [Char] -> [Char]
-get_first_word l = takeWhile (\e -> not(is_member split_string_list e)) l
+get_first_word l = takeWhile (\e -> not $ is_member e split_string_list) l
 
 splitter :: [Char] -> [[Char]]
 splitter someSentence
@@ -42,14 +42,14 @@ stop_words = "a,able,about,across,after,all,almost,also,am,among,an,and,any,are,
 -- Not a very good func name for what it does...
 -- are_stop_words is better.
 is_stop_word :: [Char] -> [Bool]
-is_stop_word sentence = map (\e-> is_member (splitter stop_words) e) (splitter sentence)
+is_stop_word sentence = map (\e-> is_member e $ splitter stop_words) $ splitter sentence
 
 get_stop_words :: [Char] -> [[Char]]
 get_stop_words sentence =
     foldl
         (\
             stopWords e ->
-            if (is_member (splitter stop_words) e && not (is_member stopWords e)) then
+            if (is_member e $ splitter stop_words) && (not $ is_member e stopWords) then
                 e:stopWords
             else
                 stopWords
@@ -61,7 +61,7 @@ remove_stop_words sentence =
     foldl
         (\
             regWords e ->
-            if (not (is_member (splitter stop_words) e) && not (is_member regWords e)) then
+            if (not $ is_member e $ splitter stop_words) && (not $ is_member e regWords) then
                 e:regWords
             else
                 regWords
